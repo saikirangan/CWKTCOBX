@@ -34,7 +34,7 @@ on:
       jclFile:
         # JCL File Name
         description: JCL File Name
-        default: C:\Topaz\WorkbenchCLI\git\CWKTCOBX\CWKTCOBX\Tests\JCL\TTTRunner.jcl
+        default: C:\Topaz\WorkbenchCLI\git\CWKTCOBX\CWKTCOBX\Tests\JCL\Runner.jcl
         required: true
       workspace:
         # Workspcae location of the customer input from the user.
