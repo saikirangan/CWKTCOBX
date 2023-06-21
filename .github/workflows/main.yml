@@ -34,7 +34,7 @@ on:
       jclFile:
         # JCL File Name
         description: JCL File Name
-        default: "C:\\Users\\sandhata\\git\\CWKTCOBX\\CWKTCOBX\\Tests\\JCL\\TTTRUNNER.jcl"
+        default: "C:\\Users\\sandhata\\git\\CWKTCOBX\\CWKTCOBX\\Tests\\JCL\\RUNNER.jcl"
         required: true
       workspace:
         # Workspcae location of the customer input from the user.
