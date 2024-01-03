@@ -21,7 +21,7 @@ jobs:
         id: sync
         with:
           host: 'ispw-host.com'
-          port: 12345
+          port: 16196
           uid: ${{ secrets.TSOUSER }}
           pass: ${{ secrets.TSOPASS }}
           runtimeConfiguration: 'TPZP'
