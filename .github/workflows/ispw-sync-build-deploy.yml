@@ -1,11 +1,15 @@
-name: sync, build and deploy
+name: code-pipeline-sync-local, generate and deploy
+
 
 on: [push]
 
 jobs:
   generate:
     name: sync, build & deploy
-    runs-on: [self-hosted, ubuntu20]
+    runs-on: [self-hosted, ISPW]
+    env:
+      Win_Topaz_Location: 'C:\Users\sandhata\topaz\WorkbenchCLI'
+    
     steps:
       - name: checkout step
         uses: actions/checkout@v2
@@ -13,11 +17,11 @@ jobs:
           fetch-depth: 0
       
       - name: sync step
-        uses: Ispw-sync GitHub action@v2
+        uses: bmc-compuware/ispw-sync-local@main
         id: sync
         with:
           host: 'ispw-host.com'
-          port: 16196
+          port: 12345
           uid: ${{ secrets.TSOUSER }}
           pass: ${{ secrets.TSOPASS }}
           runtimeConfiguration: 'TPZP'
@@ -26,46 +30,46 @@ jobs:
           checkoutLevel: 'DEV1'
           gitUid: ${{ secrets.GITUID }}
           gitToken: ${{ secrets.GITHUB_TOKEN }}
+          winTopazPath: ${{ env.Win_Topaz_Location }}
           #containerCreation: 'per-branch'
           showEnv: true
       
       - name: Get automatic build parameters
         run: echo "automaticBuildJson=${{ steps.sync.outputs.automaticBuildJson }}"
       
-      - name: build step
-        uses: Ispw-build GitHub action@v2
-        id: build
+      - name: generate step
+        uses: bmc-compuware/ispw-generate@main
+        id: generate
         if: ${{ steps.sync.outputs.automaticBuildJson != '{}'}}
         with:
-          ces_url: 'http://ces-host.com:48226/'
+          ces_url: 'http://10.10.1.174:48226/compuware/'
           ces_token: ${{ secrets.CES_TOKEN }}
           srid: ${{ srid }}
           runtime_configuration: 'TPZP'
-          build_automatically: ${{ steps.sync.outputs.automaticBuildJson }}
+          generate_automatically: ${{ steps.sync.outputs.automaticBuildJson }}
       
-      - name: build output
+      - name: generate output
         if: success() || failure()
         run: |
-          echo "failed count: ${{ steps.build.outputs.generate_failed_count }}"
-          echo "success count: ${{ steps.build.outputs.generate_success_count }}"
-          echo "timeout? ${{ steps.build.outputs.is_timed_out }} "
-          echo "has failure? ${{ steps.build.outputs.has_failures }}"
-          echo "task count: ${{ steps.build.outputs.task_count }}"
-          echo "set id: ${{ steps.build.outputs.set_id }}"
-          echo "url: ${{ steps.build.outputs.url }}"
-          echo "assignment id: ${{ steps.build.outputs.assignment_id }}"
-          echo "output json: ${{fromJSON(steps.build.outputs.output_json)}}"
+          echo "failed count: ${{ steps.generate.outputs.generate_failed_count }}"
+          echo "success count: ${{ steps.generate.outputs.generate_success_count }}"
+          echo "timeout? ${{ steps.generate.outputs.is_timed_out }} "
+          echo "has failure? ${{ steps.generate.outputs.has_failures }}"
+          echo "task count: ${{ steps.generate.outputs.task_count }}"
+          echo "set id: ${{ steps.generate.outputs.set_id }}"
+          echo "url: ${{ steps.generate.outputs.url }}"
+          echo "assignment id: ${{ steps.generate.outputs.assignment_id }}"
           
-      - name: wait 30 second for build to complete
-        run: sleep 30s
-        shell: bash
+      - name: wait 30 second for generate to complete
+        run: Start-Sleep -s 30
+        shell: powershell
       
       - name: deploy
         if: ${{ steps.sync.outputs.automaticBuildJson != '{}'}}
         uses: bmc-compuware/ispw-deploy@main
         id: deploy
         with:
-          ces_url: 'http://ces-host.com:48226/'
+          ces_url: 'http://10.10.1.174:48226/compuware/'
           ces_token: ${{ secrets.CES_TOKEN }}
           srid: ${{ srid }}
           runtime_configuration: 'TPZP'
