@@ -42,7 +42,7 @@ jobs:
         id: generate
         if: ${{ steps.sync.outputs.automaticBuildJson != '{}'}}
         with:
-          ces_url: 'http://10.10.1.174:48226/compuware/'
+          ces_url: 'http://10.10.1.174:48226/'
           ces_token: ${{ secrets.CES_TOKEN }}
           srid: ${{ srid }}
           runtime_configuration: 'TPZP'
@@ -69,7 +69,7 @@ jobs:
         uses: bmc-compuware/ispw-deploy@main
         id: deploy
         with:
-          ces_url: 'http://10.10.1.174:48226/compuware/'
+          ces_url: 'http://10.10.1.174:48226/'
           ces_token: ${{ secrets.CES_TOKEN }}
           srid: ${{ srid }}
           runtime_configuration: 'TPZP'
