@@ -44,7 +44,7 @@ jobs:
         with:
           ces_url: 'http://10.10.1.174:48226/'
           ces_token: ${{ secrets.CES_TOKEN }}
-          srid: ${{ srid }}
+          #srid: ${{ srid }}
           runtime_configuration: 'TPZP'
           generate_automatically: ${{ steps.sync.outputs.automaticBuildJson }}
       
@@ -71,6 +71,6 @@ jobs:
         with:
           ces_url: 'http://10.10.1.174:48226/'
           ces_token: ${{ secrets.CES_TOKEN }}
-          srid: ${{ srid }}
+         # srid: ${{ srid }}
           runtime_configuration: 'TPZP'
           deploy_automatically: ${{ steps.sync.outputs.automaticBuildJson }}
