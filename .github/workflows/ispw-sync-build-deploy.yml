@@ -1,12 +1,21 @@
 name: code-pipeline-sync-local, generate and deploy
 
 
-on: [push]
+on:
+  push:
+    branches:
+      - main
 
 jobs:
-  generate:
+  trigger:
     name: sync, build & deploy
-    runs-on: [self-hosted, ISPW]
+    runs-on: self-hosted
+#on: [push]
+
+#jobs:
+ # generate:
+  #  name: sync, build & deploy
+   # runs-on: [self-hosted, ISPW]
     #env:
       # Win_Topaz_Location: 'C:\Users\sandhata\topaz\WorkbenchCLI'
     
