@@ -7,8 +7,8 @@ jobs:
   generate:
     name: sync, build & deploy
     runs-on: [self-hosted, ISPW]
-    env:
-      Win_Topaz_Location: 'C:\Users\sandhata\topaz\WorkbenchCLI'
+    #env:
+      # Win_Topaz_Location: 'C:\Users\sandhata\topaz\WorkbenchCLI'
     
     steps:
       - name: checkout step
@@ -30,7 +30,7 @@ jobs:
           checkoutLevel: 'DEV1'
           gitUid: ${{ secrets.GITUID }}
           gitToken: ${{ secrets.GITHUB_TOKEN }}
-          winTopazPath: ${{ env.Win_Topaz_Location }}
+          #winTopazPath: ${{ env.Win_Topaz_Location }}
           #containerCreation: 'per-branch'
           showEnv: true
       
